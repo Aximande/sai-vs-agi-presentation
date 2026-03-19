@@ -270,6 +270,42 @@
             top: 6px;
         }
 
+        /* Link styles */
+        a {
+            color: var(--bpi-yellow);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        a:hover {
+            color: var(--bpi-orange);
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+
+        a::after {
+            content: '↗';
+            font-size: 0.8rem;
+            margin-left: 0.25rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        a:hover::after {
+            opacity: 1;
+        }
+
+        /* Enhanced concept cards with better spacing */
+        .concept-card h4 {
+            color: var(--bpi-orange);
+            margin-bottom: 0.5rem;
+        }
+
+        .concept-card p {
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
         .bpi-logo {
             font-size: 1.5rem;
             font-weight: 800;
@@ -804,7 +840,7 @@
             
             <div class="theme-controls">
                 <div class="slide-counter">
-                    <span id="current-slide">1</span> / <span id="total-slides">14</span>
+                    <span id="current-slide">1</span> / <span id="total-slides">15</span>
                 </div>
                 
                 <div class="theme-toggle" onclick="toggleTheme()" title="Changer le thème">
@@ -1271,6 +1307,115 @@
             </div>
         </div>
 
+        <!-- Slide 11.5: Citations du Paper -->
+        <div class="slide">
+            <h2>💬 Ce que disent les Experts</h2>
+            
+            <div class="two-column">
+                <div>
+                    <div class="highlight-box">
+                        <div class="quote" style="font-size: 1.3rem;">
+                            The AI that folds our proteins should not be the AI that folds our laundry!
+                        </div>
+                        <p style="text-align: center; color: var(--bpi-orange); margin-top: 1rem;">
+                            — Paper SAI 2026
+                        </p>
+                    </div>
+                    
+                    <div class="highlight-box">
+                        <div class="quote" style="font-size: 1.2rem;">
+                            Human intelligence is only 'general' in a limited sense
+                        </div>
+                        <p style="text-align: center; color: var(--bpi-orange); margin-top: 1rem;">
+                            — François Chollet, créateur du test ARC
+                        </p>
+                    </div>
+                </div>
+                
+                <div>
+                    <div class="concept-card">
+                        <div class="emoji-large">🧠</div>
+                        <h3>Yann LeCun (Meta AI)</h3>
+                        <p style="font-style: italic;">"Nous devons abandonner l'idée que l'IA doit imiter l'intelligence humaine. La spécialisation adaptable est la voie."</p>
+                    </div>
+                    
+                    <div class="concept-card">
+                        <div class="emoji-large">🎯</div>
+                        <h3>Demis Hassabis (DeepMind)</h3>
+                        <p style="font-style: italic;">"AlphaFold montre que la spécialisation peut avoir un impact plus grand que la généralité supposée."</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="highlight-box">
+                <p><strong>🔍 Fait intéressant :</strong> Ce paper a été écrit en réaction au battage médiatique sur "l'AGI déjà atteinte" par plusieurs entreprises tech.</p>
+            </div>
+        </div>
+
+        <!-- Slide 11.8: Glossaire Technique -->
+        <div class="slide">
+            <h2>📚 Glossaire SAI</h2>
+            
+            <div class="grid-3">
+                <div class="concept-card reveal-card" onclick="toggleReveal(this)">
+                    <div class="emoji-large">🔄</div>
+                    <h3>Self-Supervised Learning</h3>
+                    <p>Apprentissage sans supervision humaine</p>
+                    <div class="reveal-content">
+                        <div style="text-align: center;">
+                            <h4>SSL en détail :</h4>
+                            <p>• Apprend des structures cachées dans les données</p>
+                            <p>• Pas besoin de labels humains</p>
+                            <p>• Base de GPT, CLIP, etc.</p>
+                            <p>• Plus scalable que l'apprentissage supervisé</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="concept-card reveal-card" onclick="toggleReveal(this)">
+                    <div class="emoji-large">🌍</div>
+                    <h3>World Models</h3>
+                    <p>Modèles prédictifs du monde</p>
+                    <div class="reveal-content">
+                        <div style="text-align: center;">
+                            <h4>World Models :</h4>
+                            <p>• Simulent la physique du monde</p>
+                            <p>• Permettent planification</p>
+                            <p>• Adaptation zero-shot</p>
+                            <p>• Inspirés du cerveau humain</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="concept-card reveal-card" onclick="toggleReveal(this)">
+                    <div class="emoji-large">🎯</div>
+                    <h3>JEPA</h3>
+                    <p>Joint Embedding Predictive Architecture</p>
+                    <div class="reveal-content">
+                        <div style="text-align: center;">
+                            <h4>JEPA expliqué :</h4>
+                            <p>• Architecture proposée par Yann LeCun</p>
+                            <p>• Prédit dans l'espace latent, pas pixels</p>
+                            <p>• Plus efficace que autorégressif</p>
+                            <p>• Évite divergence exponentielle</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="two-column" style="margin-top: 2rem;">
+                <div class="concept-card">
+                    <h3>🚫 No Free Lunch Theorem</h3>
+                    <p>Impossible d'être optimal pour tous les problèmes avec des ressources finies</p>
+                </div>
+                
+                <div class="concept-card">
+                    <h3>📈 Negative Transfer</h3>
+                    <p>Quand apprendre plusieurs tâches nuit aux performances individuelles</p>
+                </div>
+            </div>
+        </div>
+
         <!-- Slide 12: Conclusion -->
         <div class="slide">
             <h1>🚀 L'Avenir est SAI</h1>
@@ -1302,7 +1447,62 @@
             <div class="highlight-box">
                 <p><strong>📖 Paper :</strong> "AI Must Embrace Specialization via Superhuman Adaptable Intelligence"</p>
                 <p><strong>🧠 Auteurs :</strong> Judah Goldfeder, Philippe Wyder, Yann LeCun, Ravid Shwartz-Ziv</p>
-                <p><strong>🔗 ArXiv :</strong> 2602.23643v1</p>
+                <p><strong>🔗 ArXiv :</strong> <a href="https://arxiv.org/pdf/2602.23643v1" target="_blank" style="color: var(--bpi-yellow);">2602.23643v1</a></p>
+            </div>
+        </div>
+
+        <!-- Slide 13: Ressources & Liens -->
+        <div class="slide">
+            <h2>🔗 Pour Aller Plus Loin</h2>
+            
+            <div class="two-column">
+                <div>
+                    <h3>📄 Papers Fondamentaux</h3>
+                    <div class="concept-card">
+                        <h4>🎯 SAI Paper (2026)</h4>
+                        <p><a href="https://arxiv.org/pdf/2602.23643v1" target="_blank" style="color: var(--bpi-yellow);">arxiv.org/pdf/2602.23643v1</a></p>
+                        <p>Le paper révolutionnaire analysé aujourd'hui</p>
+                    </div>
+                    
+                    <div class="concept-card">
+                        <h4>🧠 ARC Test (Chollet)</h4>
+                        <p>Test d'intelligence artificielle générale</p>
+                        <p>Mesure l'adaptation, pas la mémorisation</p>
+                    </div>
+                    
+                    <div class="concept-card">
+                        <h4>🌍 World Models (Ha & Schmidhuber)</h4>
+                        <p>Précurseur des modèles prédictifs</p>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3>🚀 Demos & Outils</h3>
+                    <div class="concept-card">
+                        <h4>🤖 Autonomous Research</h4>
+                        <p><a href="https://autonomous-research-dashboard.vercel.app" target="_blank" style="color: var(--bpi-yellow);">Dashboard Live</a></p>
+                        <p>13 expériences ML autonomes en temps réel</p>
+                    </div>
+                    
+                    <div class="concept-card">
+                        <h4>🧬 AlphaFold Database</h4>
+                        <p>200M+ structures protéiques prédites</p>
+                        <p>Exemple parfait de SAI en action</p>
+                    </div>
+                    
+                    <div class="concept-card">
+                        <h4>💼 BPI France</h4>
+                        <p><a href="https://bpifrance.io" target="_blank" style="color: var(--bpi-yellow);">bpifrance.io</a></p>
+                        <p>Financement et accompagnement IA</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="highlight-box">
+                <h3>🎯 Takeaway pour Investisseurs</h3>
+                <p><strong>Cherchez :</strong> Startups avec adaptation rapide + spécialisation surhumaine</p>
+                <p><strong>Évitez :</strong> "Nous allons créer l'AGI générale"</p>
+                <p><strong>Mesurez :</strong> Vitesse d'adaptation à nouvelles tâches dans le domaine</p>
             </div>
         </div>
     </div>
