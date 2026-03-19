@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SAI vs AGI - L'IA Spécialisée Surhumaine | BPI France</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -332,6 +333,106 @@
             margin: 0.25rem;
             border: 1px solid var(--bpi-orange);
         }
+
+        /* Chart Containers */
+        .chart-container {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 2rem 0;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 215, 0, 0.3);
+        }
+
+        .chart-wrapper {
+            position: relative;
+            height: 400px;
+            width: 100%;
+        }
+
+        /* Performance Bars */
+        .performance-bar {
+            background: rgba(255, 255, 255, 0.1);
+            height: 40px;
+            border-radius: 20px;
+            margin: 1rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .performance-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--bpi-yellow) 0%, var(--bpi-orange) 100%);
+            border-radius: 20px;
+            transition: width 2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 1rem;
+            font-weight: 600;
+        }
+
+        .performance-label {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-weight: 600;
+            color: white;
+            z-index: 2;
+        }
+
+        /* Interactive Timeline */
+        .timeline {
+            position: relative;
+            padding: 2rem 0;
+        }
+
+        .timeline-line {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, var(--bpi-yellow) 0%, var(--bpi-orange) 100%);
+        }
+
+        .timeline-item {
+            display: flex;
+            align-items: center;
+            margin: 2rem 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .timeline-item:hover {
+            transform: scale(1.05);
+        }
+
+        .timeline-dot {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--bpi-yellow);
+            border: 4px solid var(--bpi-dark);
+            position: relative;
+            z-index: 2;
+            margin: 0 2rem;
+        }
+
+        .timeline-content {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1rem;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+        }
+
+        .timeline-year {
+            color: var(--bpi-orange);
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
     </style>
 </head>
 <body>
@@ -414,35 +515,53 @@
             <div class="vs-divider pulse">VS</div>
         </div>
 
-        <!-- Slide 4: Révélation choc -->
+        <!-- Slide 4: Révélation choc avec visualisation -->
         <div class="slide">
-            <h2>🤯 Révélation Choc</h2>
+            <h2>🤯 Révélation Choc : Performance Humain vs IA</h2>
             
             <div class="quote">
                 Les humains ne sont PAS généraux !
             </div>
             
-            <div class="grid-3">
-                <div class="concept-card">
-                    <div class="emoji-large">♟️</div>
-                    <h3>Magnus Carlsen</h3>
-                    <p>Meilleur joueur d'échecs au monde</p>
-                    <div class="stat">0%</div>
-                    <div class="stat-label">de chance contre un smartphone</div>
-                </div>
-                
-                <div class="concept-card">
-                    <div class="emoji-large">🚶</div>
-                    <h3>Paradoxe de Moravec</h3>
-                    <p>Marcher = facile pour nous, dur pour l'IA</p>
-                    <p>Échecs = dur pour nous, facile pour l'IA</p>
+            <div class="two-column">
+                <div>
+                    <h3>🎯 Performances Comparées</h3>
+                    
+                    <div class="performance-bar">
+                        <div class="performance-label">Échecs (Magnus vs Stockfish)</div>
+                        <div class="performance-fill human-chess" style="width: 15%;">Humain: 15%</div>
+                    </div>
+                    
+                    <div class="performance-bar">
+                        <div class="performance-label">Go (Lee Sedol vs AlphaGo)</div>
+                        <div class="performance-fill human-go" style="width: 20%;">Humain: 20%</div>
+                    </div>
+                    
+                    <div class="performance-bar">
+                        <div class="performance-label">Calcul Mental (Humain vs Calculatrice)</div>
+                        <div class="performance-fill human-math" style="width: 5%;">Humain: 5%</div>
+                    </div>
+                    
+                    <div class="performance-bar">
+                        <div class="performance-label">Locomotion (Humain vs Robot)</div>
+                        <div class="performance-fill human-walk" style="width: 95%;">Humain: 95%</div>
+                    </div>
+                    
+                    <div class="performance-bar">
+                        <div class="performance-label">Reconnaissance Visuelle</div>
+                        <div class="performance-fill human-vision" style="width: 70%;">Humain: 70%</div>
+                    </div>
                 </div>
                 
                 <div class="concept-card">
                     <div class="emoji-large">🧬</div>
-                    <h3>Évolution</h3>
-                    <p>Nous sommes spécialisés pour la survie</p>
-                    <p>Pas "généraux" du tout !</p>
+                    <h3>Paradoxe de Moravec</h3>
+                    <p>Ce qui est <strong>facile</strong> pour nous (marcher, voir) est <strong>dur</strong> pour l'IA</p>
+                    <p>Ce qui est <strong>dur</strong> pour nous (échecs, calcul) est <strong>facile</strong> pour l'IA</p>
+                    
+                    <div class="highlight-box" style="margin-top: 2rem;">
+                        <p><strong>🎯 Conclusion :</strong> Nous sommes spécialisés pour la survie évolutionnaire, pas "généraux" !</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -537,6 +656,60 @@
                     The AI that folds our proteins should not be the AI that folds our laundry!
                 </div>
                 <p style="text-align: center; color: var(--bpi-orange);">— Le paper</p>
+            </div>
+        </div>
+
+        <!-- Slide 7.5: Timeline Evolution IA -->
+        <div class="slide">
+            <h2>📈 Évolution : De l'AGI Rêvée au SAI Réaliste</h2>
+            
+            <div class="timeline">
+                <div class="timeline-line"></div>
+                
+                <div class="timeline-item" onclick="highlightTimeline(0)">
+                    <div class="timeline-content">
+                        <div class="timeline-year">1956</div>
+                        <h3>Naissance "AGI"</h3>
+                        <p>Conférence de Dartmouth : "reproduire l'intelligence humaine"</p>
+                    </div>
+                    <div class="timeline-dot"></div>
+                </div>
+                
+                <div class="timeline-item" onclick="highlightTimeline(1)">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-year">1997</div>
+                        <h3>Échecs : Spécialisation Gagne</h3>
+                        <p>Deep Blue bat Kasparov - première victoire de la spécialisation</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item" onclick="highlightTimeline(2)">
+                    <div class="timeline-content">
+                        <div class="timeline-year">2016</div>
+                        <h3>Go : AlphaGo</h3>
+                        <p>Spécialisé pour le Go, surhumain dans son domaine</p>
+                    </div>
+                    <div class="timeline-dot"></div>
+                </div>
+                
+                <div class="timeline-item" onclick="highlightTimeline(3)">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-year">2021</div>
+                        <h3>AlphaFold : Révolution</h3>
+                        <p>Spécialisé en protéines = Nobel de chimie</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item" onclick="highlightTimeline(4)">
+                    <div class="timeline-content">
+                        <div class="timeline-year">2026</div>
+                        <h3>Paper SAI : Nouveau Paradigme</h3>
+                        <p>Yann LeCun & co. : "Embracing Specialization"</p>
+                    </div>
+                    <div class="timeline-dot"></div>
+                </div>
             </div>
         </div>
 
@@ -790,6 +963,48 @@
                 card.classList.add('animate-in');
             });
         }, 500);
+
+        // Performance bars animation
+        function animatePerformanceBars() {
+            const bars = document.querySelectorAll('.performance-fill');
+            bars.forEach((bar, index) => {
+                setTimeout(() => {
+                    const width = bar.style.width;
+                    bar.style.width = '0%';
+                    setTimeout(() => {
+                        bar.style.width = width;
+                    }, 100);
+                }, index * 200);
+            });
+        }
+
+        // Timeline highlighting
+        function highlightTimeline(index) {
+            const items = document.querySelectorAll('.timeline-item');
+            items.forEach((item, i) => {
+                if (i === index) {
+                    item.style.transform = 'scale(1.1)';
+                    item.style.background = 'rgba(255, 215, 0, 0.1)';
+                } else {
+                    item.style.transform = 'scale(1)';
+                    item.style.background = 'transparent';
+                }
+            });
+        }
+
+        // Animate bars when slide 4 is visible
+        function checkSlideAnimations() {
+            if (currentSlide === 3) { // Slide 4 (0-indexed)
+                setTimeout(animatePerformanceBars, 500);
+            }
+        }
+
+        // Update slide with animations
+        const originalUpdateSlide = updateSlide;
+        updateSlide = function() {
+            originalUpdateSlide();
+            checkSlideAnimations();
+        };
     </script>
 </body>
 </html>
