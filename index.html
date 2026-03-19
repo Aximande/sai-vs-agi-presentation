@@ -433,6 +433,170 @@
             font-weight: 700;
             font-size: 1.2rem;
         }
+
+        /* Quiz Styles */
+        .quiz-container {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 2rem 0;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+        }
+
+        .quiz-question {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            color: var(--bpi-yellow);
+        }
+
+        .quiz-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .quiz-option {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .quiz-option:hover {
+            border-color: var(--bpi-yellow);
+            background: rgba(255, 215, 0, 0.1);
+        }
+
+        .quiz-option.correct {
+            border-color: #4ade80;
+            background: rgba(74, 222, 128, 0.2);
+            animation: correctPulse 1s ease;
+        }
+
+        .quiz-option.wrong {
+            border-color: #ef4444;
+            background: rgba(239, 68, 68, 0.2);
+            animation: shake 0.5s ease;
+        }
+
+        @keyframes correctPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        .quiz-feedback {
+            margin-top: 2rem;
+            padding: 1rem;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: 600;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .quiz-feedback.show {
+            opacity: 1;
+        }
+
+        .quiz-feedback.correct {
+            background: rgba(74, 222, 128, 0.2);
+            border: 1px solid #4ade80;
+            color: #4ade80;
+        }
+
+        .quiz-feedback.wrong {
+            background: rgba(239, 68, 68, 0.2);
+            border: 1px solid #ef4444;
+            color: #ef4444;
+        }
+
+        /* Clickable Elements */
+        .clickable-stat {
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .clickable-stat:hover {
+            transform: scale(1.1);
+        }
+
+        .stat-tooltip {
+            position: absolute;
+            top: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+            white-space: nowrap;
+        }
+
+        .clickable-stat:hover .stat-tooltip {
+            opacity: 1;
+        }
+
+        /* Reveal Animation */
+        .reveal-card {
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .reveal-content {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.9) 0%, rgba(255, 107, 53, 0.9) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform: translateY(-100%);
+            transition: transform 0.5s ease;
+            color: var(--bpi-dark);
+            font-weight: 600;
+            padding: 1rem;
+        }
+
+        .reveal-card.revealed .reveal-content {
+            transform: translateY(0);
+        }
+
+        .easter-egg {
+            position: fixed;
+            pointer-events: none;
+            font-size: 2rem;
+            animation: floatAway 3s ease forwards;
+            z-index: 1000;
+        }
+
+        @keyframes floatAway {
+            0% {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) scale(1.5);
+                opacity: 0;
+            }
+        }
     </style>
 </head>
 <body>
@@ -563,6 +727,51 @@
                         <p><strong>🎯 Conclusion :</strong> Nous sommes spécialisés pour la survie évolutionnaire, pas "généraux" !</p>
                     </div>
                 </div>
+            </div>
+        </div>
+
+        <!-- Slide 4.5: Quiz Interactif -->
+        <div class="slide">
+            <h2>🧠 Quiz : Testez vos Connaissances !</h2>
+            
+            <div class="quiz-container">
+                <div class="quiz-question">
+                    Selon le paradoxe de Moravec, qu'est-ce qui est le plus difficile pour une IA ?
+                </div>
+                
+                <div class="quiz-options">
+                    <div class="quiz-option" onclick="selectQuizOption(this, false)">
+                        <div class="emoji-large">♟️</div>
+                        <h3>Jouer aux échecs</h3>
+                        <p>Calculs complexes, millions de positions</p>
+                    </div>
+                    
+                    <div class="quiz-option" onclick="selectQuizOption(this, true)">
+                        <div class="emoji-large">👶</div>
+                        <h3>Marcher comme un bébé</h3>
+                        <p>Équilibre, coordination, adaptation</p>
+                    </div>
+                    
+                    <div class="quiz-option" onclick="selectQuizOption(this, false)">
+                        <div class="emoji-large">🧮</div>
+                        <h3>Résoudre des équations</h3>
+                        <p>Mathématiques pures, logique</p>
+                    </div>
+                    
+                    <div class="quiz-option" onclick="selectQuizOption(this, false)">
+                        <div class="emoji-large">📊</div>
+                        <h3>Analyser des données</h3>
+                        <p>Statistiques, patterns, corrélations</p>
+                    </div>
+                </div>
+                
+                <div class="quiz-feedback">
+                    <div class="feedback-text"></div>
+                </div>
+            </div>
+            
+            <div class="highlight-box">
+                <p><strong>💡 Cliquez pour révéler :</strong> Pourquoi ce paradoxe change tout pour l'IA ?</p>
             </div>
         </div>
 
@@ -718,13 +927,26 @@
             <h2>🎯 Exemples SAI en Action</h2>
             
             <div class="two-column">
-                <div class="concept-card">
+                <div class="concept-card reveal-card" onclick="toggleReveal(this)">
                     <div class="emoji-large">🧬</div>
                     <h3>AlphaFold</h3>
                     <p><strong>Spécialisation :</strong> Repliement de protéines</p>
                     <p><strong>Résultat :</strong> Révolutionne la biologie</p>
-                    <div class="stat">200M+</div>
+                    <div class="stat clickable-stat" onclick="showEasterEgg(this, '🏆')">
+                        200M+
+                        <div class="stat-tooltip">Cliquez-moi !</div>
+                    </div>
                     <div class="stat-label">structures protéiques prédites</div>
+                    
+                    <div class="reveal-content">
+                        <div style="text-align: center;">
+                            <h4>🎯 Impact Secret d'AlphaFold</h4>
+                            <p>• Accélère découverte médicaments ×1000</p>
+                            <p>• Économise des milliards en R&D</p>
+                            <p>• Ouvre voie aux thérapies personnalisées</p>
+                            <p><strong>Démis Hassabis : "Plus grand impact de l'IA sur l'humanité"</strong></p>
+                        </div>
+                    </div>
                 </div>
                 
                 <div class="concept-card">
@@ -732,7 +954,10 @@
                     <h3>Chercheur Autonome</h3>
                     <p><strong>Spécialisation :</strong> Expériences ML</p>
                     <p><strong>Résultat :</strong> Découvertes 24/7</p>
-                    <div class="stat">13</div>
+                    <div class="stat clickable-stat" onclick="showEasterEgg(this, '🤖')">
+                        13
+                        <div class="stat-tooltip">Cliquez pour une surprise !</div>
+                    </div>
                     <div class="stat-label">architectures testées en 27 min</div>
                 </div>
             </div>
@@ -1005,6 +1230,103 @@
             originalUpdateSlide();
             checkSlideAnimations();
         };
+
+        // Quiz functionality
+        let quizAnswered = false;
+        
+        function selectQuizOption(option, isCorrect) {
+            if (quizAnswered) return;
+            
+            const options = document.querySelectorAll('.quiz-option');
+            const feedback = document.querySelector('.quiz-feedback');
+            const feedbackText = feedback.querySelector('.feedback-text');
+            
+            quizAnswered = true;
+            
+            if (isCorrect) {
+                option.classList.add('correct');
+                feedback.className = 'quiz-feedback correct show';
+                feedbackText.innerHTML = '🎉 Correct ! Le paradoxe de Moravec montre que les tâches sensori-motrices "simples" pour nous (marcher, voir) nécessitent des millions d\'années d\'évolution et sont très complexes pour l\'IA.';
+            } else {
+                option.classList.add('wrong');
+                // Highlight correct answer
+                options.forEach(opt => {
+                    if (opt.onclick.toString().includes('true')) {
+                        opt.classList.add('correct');
+                    }
+                });
+                feedback.className = 'quiz-feedback wrong show';
+                feedbackText.innerHTML = '❌ Pas tout à fait ! Les échecs sont en fait très faciles pour un ordinateur. C\'est marcher qui est difficile - regardez comme les robots peinent encore avec l\'équilibre !';
+            }
+            
+            // Reset after 5 seconds
+            setTimeout(() => {
+                options.forEach(opt => opt.classList.remove('correct', 'wrong'));
+                feedback.classList.remove('show', 'correct', 'wrong');
+                quizAnswered = false;
+            }, 5000);
+        }
+
+        // Reveal card functionality
+        function toggleReveal(card) {
+            card.classList.toggle('revealed');
+            
+            // Auto-hide after 5 seconds
+            if (card.classList.contains('revealed')) {
+                setTimeout(() => {
+                    card.classList.remove('revealed');
+                }, 5000);
+            }
+        }
+
+        // Easter egg functionality
+        function showEasterEgg(element, emoji) {
+            event.stopPropagation();
+            
+            const rect = element.getBoundingClientRect();
+            const easterEgg = document.createElement('div');
+            easterEgg.className = 'easter-egg';
+            easterEgg.textContent = emoji;
+            easterEgg.style.left = rect.left + rect.width/2 + 'px';
+            easterEgg.style.top = rect.top + 'px';
+            
+            document.body.appendChild(easterEgg);
+            
+            // Show achievement message
+            const messages = {
+                '🤖': 'Achievement: Découvreur de l\'auto-research !',
+                '🏆': 'Achievement: Expert AlphaFold !',
+                '⚡': 'Achievement: Champion SAI !'
+            };
+            
+            if (messages[emoji]) {
+                setTimeout(() => {
+                    alert(messages[emoji] + ' 🎉');
+                }, 500);
+            }
+            
+            // Remove after animation
+            setTimeout(() => {
+                easterEgg.remove();
+            }, 3000);
+        }
+
+        // Add click effects to all stat elements
+        document.addEventListener('DOMContentLoaded', () => {
+            const stats = document.querySelectorAll('.stat:not(.clickable-stat)');
+            stats.forEach(stat => {
+                if (!stat.onclick) {
+                    stat.classList.add('clickable-stat');
+                    stat.onclick = () => showEasterEgg(stat, '⚡');
+                    if (!stat.querySelector('.stat-tooltip')) {
+                        const tooltip = document.createElement('div');
+                        tooltip.className = 'stat-tooltip';
+                        tooltip.textContent = 'Easter egg caché !';
+                        stat.appendChild(tooltip);
+                    }
+                }
+            });
+        });
     </script>
 </body>
 </html>
