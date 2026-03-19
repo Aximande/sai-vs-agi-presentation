@@ -306,6 +306,188 @@
             font-size: 0.9rem;
         }
 
+        /* Presenter Mode */
+        .presenter-mode {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 2000;
+            display: none;
+            padding: 2rem;
+        }
+
+        .presenter-mode.active {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .presenter-header {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .presenter-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            flex: 1;
+        }
+
+        .presenter-current {
+            border: 2px solid var(--bpi-yellow);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .presenter-next {
+            border: 2px solid var(--bpi-orange);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .presenter-slide {
+            transform: scale(0.5);
+            transform-origin: top left;
+            width: 200%;
+            height: 200%;
+        }
+
+        .presenter-notes {
+            background: var(--card-bg);
+            border-radius: 10px;
+            padding: 1rem;
+            margin-top: 1rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .presenter-timer {
+            font-family: 'Courier New', monospace;
+            font-size: 2rem;
+            color: var(--bpi-yellow);
+            text-align: center;
+        }
+
+        /* Control Panel */
+        .control-panel {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--card-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 15px;
+            padding: 1rem;
+            display: flex;
+            gap: 0.5rem;
+            z-index: 1500;
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+
+        .control-panel:hover {
+            opacity: 1;
+        }
+
+        .control-btn {
+            background: var(--bpi-yellow);
+            color: var(--bpi-dark);
+            border: none;
+            border-radius: 8px;
+            padding: 0.5rem;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            min-width: 40px;
+        }
+
+        .control-btn:hover {
+            background: var(--bpi-orange);
+            transform: scale(1.05);
+        }
+
+        /* Export styles */
+        @media print {
+            .header,
+            .nav-hint,
+            .progress-bar,
+            .control-panel,
+            .presenter-mode {
+                display: none !important;
+            }
+
+            .slide {
+                position: static;
+                opacity: 1;
+                transform: none;
+                page-break-after: always;
+                height: 100vh;
+                padding: 2rem;
+            }
+
+            .slide:last-child {
+                page-break-after: avoid;
+            }
+
+            * {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+        }
+
+        /* Analytics overlay */
+        .analytics-overlay {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            background: var(--card-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 15px;
+            padding: 1rem;
+            font-size: 0.8rem;
+            z-index: 1000;
+            opacity: 0;
+            transform: translateX(100%);
+            transition: all 0.3s ease;
+        }
+
+        .analytics-overlay.show {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .analytics-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Mobile presenter mode */
+        @media (max-width: 768px) {
+            .presenter-content {
+                grid-template-columns: 1fr;
+            }
+
+            .control-panel {
+                bottom: 10px;
+                right: 10px;
+                padding: 0.5rem;
+                gap: 0.25rem;
+            }
+
+            .control-btn {
+                min-width: 35px;
+                font-size: 0.8rem;
+                padding: 0.4rem;
+            }
+        }
+
         .bpi-logo {
             font-size: 1.5rem;
             font-weight: 800;
@@ -850,6 +1032,68 @@
         </div>
 
         <div class="progress-bar" id="progress-bar"></div>
+
+        <!-- Control Panel -->
+        <div class="control-panel">
+            <button class="control-btn" onclick="togglePresenterMode()" title="Mode Présentateur (P)">👁️</button>
+            <button class="control-btn" onclick="exportToPDF()" title="Export PDF">📄</button>
+            <button class="control-btn" onclick="toggleAnalytics()" title="Analytics">📊</button>
+            <button class="control-btn" onclick="resetPresentation()" title="Recommencer">🔄</button>
+            <button class="control-btn" onclick="toggleFullscreen()" title="Plein écran (F)">🖥️</button>
+        </div>
+
+        <!-- Analytics Overlay -->
+        <div class="analytics-overlay" id="analytics-overlay">
+            <h4 style="color: var(--bpi-yellow); margin-bottom: 1rem;">📊 Analytics Session</h4>
+            <div class="analytics-item">
+                <span>Temps total :</span>
+                <span id="total-time">00:00</span>
+            </div>
+            <div class="analytics-item">
+                <span>Slide actuelle :</span>
+                <span id="current-slide-time">00:00</span>
+            </div>
+            <div class="analytics-item">
+                <span>Quiz répondus :</span>
+                <span id="quiz-answered">0</span>
+            </div>
+            <div class="analytics-item">
+                <span>Easter eggs trouvés :</span>
+                <span id="easter-eggs-found">0</span>
+            </div>
+            <div class="analytics-item">
+                <span>Theme toggles :</span>
+                <span id="theme-toggles">0</span>
+            </div>
+        </div>
+
+        <!-- Presenter Mode -->
+        <div class="presenter-mode" id="presenter-mode">
+            <div class="presenter-header">
+                <h2 style="color: var(--bpi-yellow);">👁️ Mode Présentateur</h2>
+                <div class="presenter-timer" id="presenter-timer">00:00</div>
+                <button class="control-btn" onclick="togglePresenterMode()">Fermer</button>
+            </div>
+            
+            <div class="presenter-content">
+                <div>
+                    <h3>Slide Actuelle</h3>
+                    <div class="presenter-current" id="presenter-current"></div>
+                    <div class="presenter-notes" id="presenter-notes">
+                        <strong>Notes :</strong> Cliquez sur les éléments pour des interactions cachées !
+                    </div>
+                </div>
+                
+                <div>
+                    <h3>Slide Suivante</h3>
+                    <div class="presenter-next" id="presenter-next"></div>
+                    <div class="presenter-notes">
+                        <strong>Raccourcis :</strong> 
+                        ← → : Navigation • P : Mode présentateur • T : Theme • F : Plein écran
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!-- Slide 1: Titre -->
         <div class="slide active">
@@ -1596,10 +1840,204 @@
                 case 'T':
                     if (!e.ctrlKey && !e.metaKey) {
                         toggleTheme();
+                        analytics.themeToggles++;
+                    }
+                    break;
+                case 'p':
+                case 'P':
+                    togglePresenterMode();
+                    break;
+                case 'f':
+                case 'F':
+                    toggleFullscreen();
+                    break;
+                case 'Escape':
+                    if (isPresenterMode) {
+                        togglePresenterMode();
                     }
                     break;
             }
         });
+
+        // Analytics tracking
+        const analytics = {
+            startTime: Date.now(),
+            slideStartTime: Date.now(),
+            quizAnswered: 0,
+            easterEggsFound: 0,
+            themeToggles: 0,
+            slideTimeSpent: new Array(totalSlides).fill(0)
+        };
+
+        // Presenter Mode
+        let isPresenterMode = false;
+        let presenterTimer = null;
+
+        function togglePresenterMode() {
+            isPresenterMode = !isPresenterMode;
+            const presenterMode = document.getElementById('presenter-mode');
+            
+            if (isPresenterMode) {
+                presenterMode.classList.add('active');
+                updatePresenterMode();
+                startPresenterTimer();
+            } else {
+                presenterMode.classList.remove('active');
+                stopPresenterTimer();
+            }
+        }
+
+        function updatePresenterMode() {
+            if (!isPresenterMode) return;
+            
+            const currentSlideEl = document.getElementById('presenter-current');
+            const nextSlideEl = document.getElementById('presenter-next');
+            const notesEl = document.getElementById('presenter-notes');
+            
+            // Clone current slide
+            const currentSlideElement = slides[currentSlide].cloneNode(true);
+            currentSlideElement.classList.add('presenter-slide');
+            currentSlideEl.innerHTML = '';
+            currentSlideEl.appendChild(currentSlideElement);
+            
+            // Clone next slide
+            const nextSlideElement = slides[currentSlide + 1] ? slides[currentSlide + 1].cloneNode(true) : null;
+            if (nextSlideElement) {
+                nextSlideElement.classList.add('presenter-slide');
+                nextSlideEl.innerHTML = '';
+                nextSlideEl.appendChild(nextSlideElement);
+            } else {
+                nextSlideEl.innerHTML = '<div style="display: flex; align-items: center; justify-content: center; height: 100%; color: var(--bpi-orange);">Fin de présentation</div>';
+            }
+            
+            // Update notes based on slide
+            const slideNotes = getSlideNotes(currentSlide);
+            notesEl.innerHTML = `<strong>Notes :</strong> ${slideNotes}`;
+        }
+
+        function getSlideNotes(slideIndex) {
+            const notes = [
+                "Slide d'ouverture - Créer l'intrigue avec le spoiler AGI = mythe",
+                "Présenter les 3 camps du débat IA - montrer la confusion actuelle",
+                "Comparaison directe AGI vs SAI - faire ressortir les avantages SAI",
+                "Quiz interactif - engager l'audience sur Moravec paradox",
+                "Données visuelles chocs - Magnus Carlsen vs IA pour impact émotionnel",
+                "Timeline évolution - montrer progression vers spécialisation",
+                "Définition précise SAI - concept central à retenir",
+                "Exemples concrets - AlphaFold comme preuve de concept",
+                "Arguments biologiques/économiques - spécialisation = naturel",
+                "Techniques de construction - SSL, World Models pour tech experts",
+                "Problème homogénéité - diversité nécessaire pour innovation",
+                "Implications BPI - conseils concrets investissement",
+                "Citations autorités - crédibilité via experts reconnus",
+                "Glossaire - clarification concepts techniques",
+                "Ressources - liens pour approfondir",
+                "Conclusion forte - call-to-action clair"
+            ];
+            return notes[slideIndex] || "Slide bonus - improvisation bienvenue !";
+        }
+
+        function startPresenterTimer() {
+            presenterTimer = setInterval(() => {
+                const elapsed = Date.now() - analytics.startTime;
+                document.getElementById('presenter-timer').textContent = formatTime(elapsed);
+            }, 1000);
+        }
+
+        function stopPresenterTimer() {
+            if (presenterTimer) {
+                clearInterval(presenterTimer);
+                presenterTimer = null;
+            }
+        }
+
+        // Analytics functions
+        function toggleAnalytics() {
+            const overlay = document.getElementById('analytics-overlay');
+            overlay.classList.toggle('show');
+            
+            if (overlay.classList.contains('show')) {
+                updateAnalytics();
+                setInterval(updateAnalytics, 1000);
+            }
+        }
+
+        function updateAnalytics() {
+            const now = Date.now();
+            document.getElementById('total-time').textContent = formatTime(now - analytics.startTime);
+            document.getElementById('current-slide-time').textContent = formatTime(now - analytics.slideStartTime);
+            document.getElementById('quiz-answered').textContent = analytics.quizAnswered;
+            document.getElementById('easter-eggs-found').textContent = analytics.easterEggsFound;
+            document.getElementById('theme-toggles').textContent = analytics.themeToggles;
+        }
+
+        function formatTime(ms) {
+            const seconds = Math.floor((ms / 1000) % 60);
+            const minutes = Math.floor((ms / (1000 * 60)) % 60);
+            return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        // Export to PDF
+        function exportToPDF() {
+            const originalTitle = document.title;
+            document.title = 'SAI-vs-AGI-Presentation';
+            window.print();
+            document.title = originalTitle;
+        }
+
+        // Fullscreen toggle
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen();
+            } else {
+                document.exitFullscreen();
+            }
+        }
+
+        // Reset presentation
+        function resetPresentation() {
+            if (confirm('Recommencer la présentation depuis le début ?')) {
+                currentSlide = 0;
+                analytics.startTime = Date.now();
+                analytics.slideStartTime = Date.now();
+                analytics.quizAnswered = 0;
+                analytics.easterEggsFound = 0;
+                analytics.themeToggles = 0;
+                updateSlide();
+                if (isPresenterMode) {
+                    updatePresenterMode();
+                }
+            }
+        }
+
+        // Override existing functions to track analytics
+        const originalSelectQuizOption = selectQuizOption;
+        selectQuizOption = function(option, isCorrect) {
+            originalSelectQuizOption(option, isCorrect);
+            analytics.quizAnswered++;
+        };
+
+        const originalShowEasterEgg = showEasterEgg;
+        showEasterEgg = function(element, emoji) {
+            originalShowEasterEgg(element, emoji);
+            analytics.easterEggsFound++;
+        };
+
+        const originalUpdateSlide2 = updateSlide;
+        updateSlide = function() {
+            // Track time spent on previous slide
+            const now = Date.now();
+            if (typeof analytics.slideStartTime !== 'undefined') {
+                analytics.slideTimeSpent[currentSlide] += now - analytics.slideStartTime;
+            }
+            analytics.slideStartTime = now;
+            
+            originalUpdateSlide2();
+            
+            if (isPresenterMode) {
+                updatePresenterMode();
+            }
+        };
         
         function updateSlide() {
             // Add loading state

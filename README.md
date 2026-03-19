@@ -81,9 +81,22 @@ python -m http.server 8000
 ```
 
 ### Navigation
-- **Clavier** : Flèches ← → ou Espace
-- **Souris** : Clic gauche/droite
+- **Clavier** : Flèches ← → ou Espace, PageUp/Down, Home/End
+- **Souris** : Clic gauche/droite pour navigation
 - **Mobile** : Swipe gauche/droite
+- **Raccourcis** : 
+  - `P` : Mode présentateur
+  - `T` : Toggle theme sombre/clair  
+  - `F` : Plein écran
+  - `Escape` : Sortir du mode présentateur
+
+### ✨ Fonctionnalités Avancées
+- **🎮 Interactif** : Quiz, easter eggs, cartes révélables
+- **👁️ Mode Présentateur** : Vue dual-screen avec notes
+- **📊 Analytics** : Suivi temps, interactions, engagement
+- **🎨 Themes** : Mode sombre/clair avec sauvegarde
+- **📄 Export PDF** : Impression optimisée
+- **🔗 URLs** : Partage de slides spécifiques via anchors
 
 ## 🔗 Liens Connexes
 
